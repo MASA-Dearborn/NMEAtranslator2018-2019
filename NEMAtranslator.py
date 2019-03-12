@@ -10,24 +10,24 @@ def gpsCoord(n):
     #as coordinates google maps can read
     #n is the placement of the data
     if data[n][0:6] == '$GPGGA':
-        lat = [int(data[n][18:20]), float(data[n][20:27])]
-        print str(lat[0]) + ' ' + str(lat[1]) + ' ' + data[n][28]
-        lon = [int(data[n][31:33]), float(data[n][33:40])]
-        print str(lon[0]) + ' ' + str(lon[1]) + ' ' + data[n][41]
+        lat = [str(data[n][18:20]), str(data[n][20:27])]
+        lon = [str(data[n][31:33]), str(data[n][33:40])]
+        print lat[0] + ' ' + lat[1] + ' ' + data[n][28]
+        print lon[0] + ' ' + lon[1] + ' ' + data[n][41]
     if data[n][0:6] == '$GPRMC':
-        lat = [int(data[n][20:22]), float(data[n][22:29])]
-        print str(lat[0]) + ' ' + str(lat[1]) + ' ' + data[n][30]
-        lon = [int(data[n][33:35]), float(data[n][35:42])]
-        print str(lon[0]) + ' ' + str(lon[1]) + ' ' + data[n][43]
+        lat = [str(data[n][20:22]), str(data[n][22:29])]
+        lon = [str(data[n][33:35]), str(data[n][35:42])]
+        print lat[0] + ' ' + lat[1] + ' ' + data[n][30]
+        print lon[0] + ' ' + lon[1] + ' ' + data[n][43]
 
 def gpsTime(n):
     #the function that reads the time from the NEMA data and prints it as a UTC
     #timestamp
     if data[n][0:6] == '$GPGGA' or data[n][0:6] == '$GPRMC':
-        hr = int(data[n][7:9])
-        min = int(data[n][9:11])
-        sec = int(data[n][11:13])
-        print str(hr) + ':' + str(min) + ':' + str(sec)
+        hr = str(data[n][7:9])
+        min = str(data[n][9:11])
+        sec = str(data[n][11:13])
+        print hr + ':' + min + ':' + sec
 
 gpsTime(0) #calling the time function for data[0]
 gpsCoord(0) #calling the GPS coordinates function for data[0]
