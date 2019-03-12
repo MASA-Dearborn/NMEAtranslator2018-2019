@@ -20,4 +20,5 @@
 * running two gps serial lines in one program
 
 <b> Streach Features </b>
-* aestectically pleasing GUI display including visualization of rocket in flight
+* aestectically pleasing GUI display 
+* visualization of rocket in flight
