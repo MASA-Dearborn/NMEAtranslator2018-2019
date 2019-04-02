@@ -12,13 +12,13 @@ def gpsCoord(n):
     if data[n][0:6] == '$GPGGA':
         lat = [str(data[n][18:20]), str(data[n][20:27])]
         lon = [str(data[n][31:33]), str(data[n][33:40])]
-        print lat[0] + ' ' + lat[1] + ' ' + data[n][28]
-        print lon[0] + ' ' + lon[1] + ' ' + data[n][41]
+        print(lat[0] + ' ' + lat[1] + ' ' + data[n][28])
+        print(lon[0] + ' ' + lon[1] + ' ' + data[n][41])
     if data[n][0:6] == '$GPRMC':
         lat = [str(data[n][20:22]), str(data[n][22:29])]
         lon = [str(data[n][33:35]), str(data[n][35:42])]
-        print lat[0] + ' ' + lat[1] + ' ' + data[n][30]
-        print lon[0] + ' ' + lon[1] + ' ' + data[n][43]
+        print(lat[0] + ' ' + lat[1] + ' ' + data[n][30])
+        print(lon[0] + ' ' + lon[1] + ' ' + data[n][43])
 
 def gpsTime(n):
     #the function that reads the time from the NEMA data and prints it as a UTC
@@ -27,7 +27,7 @@ def gpsTime(n):
         hr = str(data[n][7:9])
         min = str(data[n][9:11])
         sec = str(data[n][11:13])
-        print hr + ':' + min + ':' + sec
+        print(hr + ':' + min + ':' + sec)
 
 gpsTime(0) #calling the time function for data[0]
 gpsCoord(0) #calling the GPS coordinates function for data[0]
