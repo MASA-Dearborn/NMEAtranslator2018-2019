@@ -2,7 +2,7 @@
 
 ## Framework Used
 <b> Built with </b>
-* Python 2.7.10
+* Python 3.7.3
 
 ## Features
 <b> Completed Features </b>
