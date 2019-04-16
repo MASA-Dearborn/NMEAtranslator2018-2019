@@ -3,7 +3,7 @@
 ## Framework Used
 <b> Built with </b>
 * Python 3.7.3
-* PySerial Library
+* PySerial Library [library found here](https://pythonhosted.org/pyserial/)
 
 ## Features
 <b> Completed Features </b>
