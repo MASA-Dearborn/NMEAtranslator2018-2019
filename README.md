@@ -7,19 +7,17 @@
 
 ## Features
 <b> Completed Features </b>
-* n/a
-
+* saving serial data and translated data to a text file
 
 <b> Incomplete Features </b>
 * displaying GPS coordinates in degrees and decimal minutes
 * displaying the time stamp of the data in UTC
-* reading serial data in real time 
-* saving serial data and translated data to a text file
+* reading serial data in real time
 
 <b> Planned Features </b>
-* displaying the alititude 
-* running two gps serial lines in one program
+* displaying the altitude
+* running two GPS serial lines in one program
 
-<b> Streach Features </b>
-* aestectically pleasing GUI display 
+<b> Stretch Features </b>
+* aesthetically pleasing GUI display
 * visualization of rocket in flight

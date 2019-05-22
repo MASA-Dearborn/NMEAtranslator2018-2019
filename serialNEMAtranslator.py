@@ -55,11 +55,8 @@ def gpsTime(idata):
         wdata = [wdata[0:2], wdata[2:4], wdata[4:6]]
         return ':'.join(wdata)
 
-while i == True:
-    #the iteration loop -- anything in here repeats forever
-    rawData = collectData()
-    #collect data and set the data variable to the collected data
-
+def saveData():
+    #the function that saves the data to files
     file = open(rawLogName + '.txt', 'a') #creates a file called rawLogName and writes
     #the data to it
     file.write(rawData + '\n')
@@ -74,3 +71,10 @@ while i == True:
         file.write(gpsCoord(rawData)[0] + '\n')
         file.write(gpsCoord(rawData)[1] + '\n')
         file.close()
+
+if __name__ == "__main__":
+    while i == True:
+        #the iteration loop -- anything in here repeats forever
+        rawData = collectData()
+        #collect data and set the data variable to the collected data
+        saveData()
