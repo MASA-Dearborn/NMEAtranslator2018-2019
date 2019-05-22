@@ -1,5 +1,6 @@
 from enum import Enum #imports the enum module
 import serial #importing pyserial to read the data from the Eggfinder
+#import threading #import threading for the buffer
 
 ser = serial.Serial('/dev/cu.usbserial', 9600, timeout=1) #this is the
 #adafruit cable, open up Eggfinder serial, 9600 baud rate, timeout after 1 second
