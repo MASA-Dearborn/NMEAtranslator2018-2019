@@ -46,10 +46,10 @@ def gpsCoord(idata):
         wdata = idata.split(',')
         if '$GPRMC' in idata:
             lat = [wdata[3][0:2], wdata[3][2:], wdata[4]]
-            lon = [wdata[5][0:2], wdata[5][2:], wdata[6]]
+            lon = [wdata[5][0:3], wdata[5][3:], wdata[6]]
         if '$GPGGA' in idata:
             lat = [wdata[2][0:2], wdata[2][2:], wdata[3]]
-            lon = [wdata[4][0:2], wdata[4][2:], wdata[5]]
+            lon = [wdata[4][0:3], wdata[4][3:], wdata[5]]
         return [' '.join(lat), ' '.join(lon)]
 
 def gpsTime(idata):
