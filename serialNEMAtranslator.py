@@ -1,6 +1,6 @@
 from enum import Enum #imports the enum module
 import serial #importing pyserial to read the data from the Eggfinder
-#import threading #import threading for the buffer
+import threading #import threading for the buffer
 
 ser = serial.Serial('/dev/cu.usbserial', 9600, timeout=1) #this is the
 #adafruit cable, open up Eggfinder serial, 9600 baud rate, timeout after 1 second
@@ -14,13 +14,18 @@ class recievable(Enum): #the set of all recievable values
     ALL_GOOD = 2 #everything's good
 i = True #the switch variable for the inifinte loop
 recieving = recievable(0) #the actual recieving value
+buffer = [] #the buffer for the incoming data
+
 
 def collectData():
-    #the function that collects the raw data from the serial line
+    #the function that collects the raw data from the serial line and saves
+    #it to the buffer
+    global buffer #sets up the function to work with the globabl variable
     raw = str(ser.readline()) #read one line of data
     length = len(raw) #obtains length of the raw data
-    raw = raw[2:length-5] #removes the b' and \r\n' added bits from the raw data
-    return raw
+    raw = raw[2:length-5] #removes the b' and \r\n' added bits from the raw
+    #data
+    buffer.append(raw) #appends the data to the buffer
 
 def gpsRecieve(idata):
     #the function that checks whether we are recieving actual gps data
@@ -56,25 +61,35 @@ def gpsTime(idata):
         return ':'.join(wdata)
 
 def saveData():
-    #the function that saves the data to files
-    file = open(rawLogName + '.txt', 'a') #creates a file called rawLogName and writes
-    #the data to it
-    file.write(rawData + '\n')
-    file.close()
-
-    gpsRecieve(rawData) #testing to see if we're recieving data
-
-    if recieving == recievable(2):
-        file = open(transLogName + '.txt', 'a' )#creates a file called
-        #transLogName and writes the data to it
-        file.write(gpsTime(rawData) + '\n')
-        file.write(gpsCoord(rawData)[0] + '\n')
-        file.write(gpsCoord(rawData)[1] + '\n')
+    #the function that saves the data to text files
+    if buffer != []:
+        #if there is something in the buffer
+        rawData = buffer.pop(0)
+        file = open(rawLogName + '.txt', 'a') #creates a file called rawLogName
+        #and writes the data to it
+        file.write(rawData + '\n')
         file.close()
+
+        gpsRecieve(rawData) #testing to see if we're recieving data
+
+        if recieving == recievable(2):
+            file = open(transLogName + '.txt', 'a' )#creates a file called
+            #transLogName and writes the data to it
+            file.write(gpsTime(rawData) + '\n')
+            file.write(gpsCoord(rawData)[0] + '\n')
+            file.write(gpsCoord(rawData)[1] + '\n')
+            file.close()
 
 if __name__ == "__main__":
     while i == True:
         #the iteration loop -- anything in here repeats forever
-        rawData = collectData()
-        #collect data and set the data variable to the collected data
-        saveData()
+
+        collectThread = threading.Thread(target=collectData, args=())
+        saveThread = threading.Thread(target=saveData, args=())
+        #defines the threads to run
+
+        collectThread.start() #runs the threads
+        saveThread.start()
+
+        collectThread.join()
+        saveThread.join()
