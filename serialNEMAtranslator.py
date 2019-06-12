@@ -67,7 +67,8 @@ def gpsTime(idata):
 
 def saveData():
     #the function that saves the data to text files
-    global bufferOne, recievingOne, rawNameOne, transNameOne, bufferTwo, recievingTwo, rawNameTwo, transNameTwo #all of the global variables
+    global bufferOne, recievingOne, rawNameOne, transNameOne, bufferTwo, recievingTwo, rawNameTwo, transNameTwo
+    #all of the global variables
 
     if bufferOne != []: #if there is something in buffer one
         rawDataOne = bufferOne.pop(0)
