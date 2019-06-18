@@ -7,7 +7,7 @@ class recievable(Enum): #the set of all recievable values
     NO_SATELLITE = 1 #no satellite recieiving
     ALL_GOOD = 2 #everything's good
 i = True #the switch variable for the inifinte loop
-serialAmount = 2 #the number of running serial lines
+serialAmount = 1 #the number of running serial lines
 
 #All of the info for serial one
 serialOne = serial.Serial('/dev/cu.SLAB_USBtoUART', 9600, timeout=1) #this is the
@@ -17,13 +17,14 @@ transNameOne = 'translatedLog1'
 recievingOne = recievable(0) #the actual recieving value
 bufferOne = [] #the buffer for the incoming data of one
 
-#All of the info for serial two
-serialTwo = serial.Serial('/dev/cu.usbserial', 9600, timeout=1) #this is the
-#Eggfinder cable, open up serial, 9600 baud rate, timeout after 1 second
-rawNameTwo = 'rawLog2'
-transNameTwo = 'translatedLog2'
-recievingTwo =  recievable(0) #the actual recieving value
-bufferTwo = [] #the buffer for the incoming data of two
+if serialAmount == 2:
+    #All of the info for serial two, only applicable if serialAmount is 2
+    serialTwo = serial.Serial('/dev/cu.usbserial', 9600, timeout=1) #this is the
+    #Eggfinder cable, open up serial, 9600 baud rate, timeout after 1 second
+    rawNameTwo = 'rawLog2'
+    transNameTwo = 'translatedLog2'
+    recievingTwo =  recievable(0) #the actual recieving value
+    bufferTwo = [] #the buffer for the incoming data of two
 
 def collectData(ser, buffer):
     #the function that collects the raw data from the serial line and saves
@@ -48,14 +49,16 @@ def gpsCoord(idata):
     #the function that reads the GPS coordinates from the NEMA data and prints
     #as coordinates google maps can read
     if '$GPRMC' in idata or '$GPGGA' in idata:
-        wdata = idata.split(',')
-        if '$GPRMC' in idata:
-            lat = [wdata[3][0:2], wdata[3][2:], wdata[4]]
-            lon = [wdata[5][0:3], wdata[5][3:], wdata[6]]
-        if '$GPGGA' in idata:
-            lat = [wdata[2][0:2], wdata[2][2:], wdata[3]]
-            lon = [wdata[4][0:3], wdata[4][3:], wdata[5]]
-        return [' '.join(lat), ' '.join(lon)]
+        if '*' in idata:
+            wdata = idata.split(',')
+            if '$GPRMC' in idata:
+                lat = [wdata[3][0:2], wdata[3][2:], wdata[4]]
+                lon = [wdata[5][0:3], wdata[5][3:], wdata[6]]
+            if '$GPGGA' in idata:
+                lat = [wdata[2][0:2], wdata[2][2:], wdata[3]]
+                lon = [wdata[4][0:3], wdata[4][3:], wdata[5]]
+            return [' '.join(lat), ' '.join(lon)]
+
 
 def gpsTime(idata):
     #the function that reads the time from the NEMA data and prints it as a UTC
@@ -105,9 +108,12 @@ def saveData():
             file.write(gpsCoord(rawDataTwo)[1] + '\n')
             file.close()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    serialOne.name = '/dev/cu.usbserial'
     print(serialOne.name) #make sure the serial is the right serial
-    print(serialTwo.name)
+
+    if serialAmount == 2:
+        print(serialTwo.name)
 
     while i == True:
         #the iteration loop -- anything in here repeats forever
